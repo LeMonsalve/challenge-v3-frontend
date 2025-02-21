@@ -1,7 +1,6 @@
-import { UpdateSpecialPriceDto } from "./../../../../backend/src/special-prices/dto/update-special-price.dto";
 import { api } from "@/lib/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { CreateSpecialPrice, SpecialPrice } from "./types";
+import { CreateSpecialPrice, SpecialPrice, UpdateSpecialPrice } from "./types";
 import { toast } from "sonner";
 
 export function useGetSpecialPrices() {
@@ -60,7 +59,7 @@ export function useGetSpecialPrice(id?: string) {
 }
 
 type EditSpecialPrice = {
-  updateSpecialPriceDto: UpdateSpecialPriceDto;
+  updateSpecialPriceDto: UpdateSpecialPrice;
   id?: string;
 };
 
