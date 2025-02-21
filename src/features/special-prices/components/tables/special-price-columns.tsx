@@ -3,7 +3,7 @@ import { FullSpecialPrice } from "../../types";
 import { ProductDetailsPopover } from "@/features/products/components/popovers/product-details-popover";
 import { UserDetailsPopover } from "@/features/users/components/popovers/user-details-popover";
 import { Button } from "@/components/ui/button";
-import { EditIcon, Trash2Icon } from "lucide-react";
+import { EditIcon } from "lucide-react";
 import { useOpenSpecialPrice } from "../../hooks";
 
 export const specialPriceColumns: ColumnDef<FullSpecialPrice>[] = [
@@ -40,9 +40,6 @@ function ActionsCell({ original }: Row<FullSpecialPrice>) {
     <div className="space-x-2">
       <Button size="sm" variant="outline" onClick={() => onOpen(original._id)}>
         <EditIcon className="size-4" />
-      </Button>
-      <Button size="sm" variant="destructive">
-        <Trash2Icon className="size-4" />
       </Button>
     </div>
   );
