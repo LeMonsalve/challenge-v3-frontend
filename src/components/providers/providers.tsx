@@ -1,6 +1,6 @@
 import { Toaster } from "sonner";
 import { QueryProvider } from "./query-provider";
-import { ThemeProvider } from "./theme-provider";
+import { ThemeProvider, useTheme } from "./theme-provider";
 import { SheetProvider } from "./sheet-provider";
 
 type Props = {
@@ -8,10 +8,12 @@ type Props = {
 };
 
 export function Providers({ children }: Props) {
+  const { theme } = useTheme();
+
   return (
     <QueryProvider>
       <ThemeProvider>
-        <Toaster />
+        <Toaster theme={theme} />
         <SheetProvider />
         {children}
       </ThemeProvider>

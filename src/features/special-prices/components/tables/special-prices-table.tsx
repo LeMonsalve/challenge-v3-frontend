@@ -1,51 +1,58 @@
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-import { specialPrices, products, users } from "@/lib/data";
+import { useGetProducts } from "@/features/products/api";
+import { useGetUsers } from "@/features/users/api";
+import { useGetSpecialPrices } from "../../api";
+import { Loader2Icon } from "lucide-react";
+import { DataTable } from "@/components/data-table";
+import { specialPriceColumns } from "./special-price-columns";
+import { FullSpecialPrice } from "../../types";
+import { useEffect, useState } from "react";
 
 export function SpecialPricesTable() {
+  const [fullSpecialPrices, setFullSpecialPrices] = useState<
+    FullSpecialPrice[]
+  >([]);
+
+  const specialPricesQuery = useGetSpecialPrices();
+
+  const productsQuery = useGetProducts();
+
+  const usersQuery = useGetUsers();
+
+  const isLoading =
+    specialPricesQuery.isLoading ||
+    productsQuery.isLoading ||
+    usersQuery.isLoading;
+
+  useEffect(() => {
+    const specialPrices = specialPricesQuery.data ?? [];
+    const products = productsQuery.data ?? [];
+    const users = usersQuery.data ?? [];
+
+    if (!isLoading) {
+      const fullSpecialPrices = specialPrices.map((specialPrice) => {
+        const product = products.find((p) => p.id === specialPrice.productId);
+        const user = users.find((u) => u.id === specialPrice.userId);
+
+        return {
+          ...specialPrice,
+          product: product!,
+          user: user!,
+        };
+      });
+
+      setFullSpecialPrices(fullSpecialPrices);
+    }
+  }, [isLoading, productsQuery.data, specialPricesQuery.data, usersQuery.data]);
+
   return (
-    <Table>
-      <TableCaption>A list of our special price offers.</TableCaption>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Product</TableHead>
-          <TableHead>User</TableHead>
-          <TableHead className="text-right">Original Price</TableHead>
-          <TableHead className="text-right">Special Price</TableHead>
-          <TableHead>End Date</TableHead>
-          <TableHead className="text-right">Action</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {specialPrices.map((item) => {
-          const product = products.find((p) => p._id === item.productId);
-          const user = users.find((u) => u.id === item.userId);
-          return (
-            <TableRow key={item.id}>
-              <TableCell className="font-medium">{product?.name}</TableCell>
-              <TableCell>{user?.name}</TableCell>
-              <TableCell className="text-right line-through text-muted-foreground">
-                ${product?.price.toFixed(2)}
-              </TableCell>
-              <TableCell className="text-right font-bold">
-                ${item.specialPrice.toFixed(2)}
-              </TableCell>
-              <TableCell>{item.endDate}</TableCell>
-              <TableCell className="text-right">
-                <Button size="sm">Buy Now</Button>
-              </TableCell>
-            </TableRow>
-          );
-        })}
-      </TableBody>
-    </Table>
+    <>
+      {!isLoading ? (
+        <DataTable columns={specialPriceColumns} data={fullSpecialPrices} />
+      ) : (
+        <div className="w-full flex items-center justify-center p-8">
+          <Loader2Icon className="size-8 text-primary animate-spin" />
+        </div>
+      )}
+    </>
   );
 }

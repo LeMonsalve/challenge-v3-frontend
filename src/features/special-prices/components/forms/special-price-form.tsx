@@ -56,23 +56,10 @@ export function SpecialPriceForm({
               <FormControl>
                 <Input
                   disabled={disabled}
+                  type="number"
                   placeholder="Enter the special price"
                   {...field}
                 />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          name="userId"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel>User</FormLabel>
-              <FormControl>
-                <UsersCombobox value={field.value} onChange={field.onChange} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -90,6 +77,20 @@ export function SpecialPriceForm({
                   value={field.value}
                   onChange={field.onChange}
                 />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          name="userId"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem className="flex flex-col">
+              <FormLabel>User</FormLabel>
+              <FormControl>
+                <UsersCombobox value={field.value} onChange={field.onChange} />
               </FormControl>
               <FormMessage />
             </FormItem>

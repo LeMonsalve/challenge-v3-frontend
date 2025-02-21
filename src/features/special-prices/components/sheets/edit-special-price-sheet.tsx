@@ -13,11 +13,11 @@ import { UpdateSpecialPrice } from "../../types";
 
 export function EditSpecialPriceSheet() {
   const { id, isOpen, onClose } = useOpenSpecialPrice();
-  const postQuery = useGetSpecialPrice(id);
+  const specialPriceQuery = useGetSpecialPrice(id);
   const editMutation = useEditSpecialPrice();
 
-  const isPending = editMutation.isPending || postQuery.isPending;
-  const isLoading = postQuery.isLoading;
+  const isPending = editMutation.isPending || specialPriceQuery.isPending;
+  const isLoading = specialPriceQuery.isLoading;
 
   const onSubmit = (values: UpdateSpecialPrice) => {
     if (id === undefined) return;
@@ -36,8 +36,10 @@ export function EditSpecialPriceSheet() {
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent className="space-y-4">
         <SheetHeader>
-          <SheetTitle>Edit Post</SheetTitle>
-          <SheetDescription>Edit your post details below.</SheetDescription>
+          <SheetTitle>Edit Special Price</SheetTitle>
+          <SheetDescription>
+            Edit your special price details below.
+          </SheetDescription>
         </SheetHeader>
         {isLoading ? (
           <div className="absolute inset-0 flex items-center justify-center">
@@ -48,7 +50,7 @@ export function EditSpecialPriceSheet() {
             id={id}
             onSubmit={onSubmit}
             disabled={isLoading || isPending}
-            defaultValues={postQuery.data}
+            defaultValues={specialPriceQuery.data}
           />
         )}
       </SheetContent>
