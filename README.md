@@ -14,7 +14,7 @@ Este es el frontend de la aplicación **challenge-v3-backend**, desarrollado con
 
 1. **Clona el repositorio**:
     ```sh
-    git clone https://github.com/tu-usuario/tu-repo.git
+    git clone https://github.com/LeMonsalve/challenge-v3-frontend.git
     cd frontend
     ```
 
